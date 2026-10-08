@@ -1,0 +1,16 @@
+.page {
+  min-height: 100dvh;
+  background: var(--background);
+}
+
+.main {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: var(--spacing-4);
+}
+
+.tabs {
+  margin-bottom: var(--spacing-4);
+  overflow-x: auto;
+  max-width: 100%;
+}

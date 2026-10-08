@@ -1,0 +1,26 @@
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 2px var(--spacing-2);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.ok {
+  color: var(--success);
+}
+
+.syncing {
+  color: var(--info);
+  border-color: var(--info);
+}
+
+.offline {
+  color: var(--warning);
+  border-color: var(--warning);
+  background: var(--warning-foreground);
+}

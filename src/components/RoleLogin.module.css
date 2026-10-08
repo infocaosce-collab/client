@@ -1,0 +1,90 @@
+.wrap {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: var(--spacing-4);
+  background: var(--background);
+}
+
+.card {
+  width: 100%;
+  max-width: 400px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  box-shadow: var(--shadow-md);
+}
+
+.brand {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-1);
+  padding-bottom: var(--spacing-3);
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+.institution {
+  font-family: var(--font-family-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.examTitle {
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.title {
+  font-family: var(--font-family-display);
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.error {
+  font-size: 0.85rem;
+  color: var(--error);
+  background: var(--error-foreground);
+  border: 1px solid var(--error);
+  border-radius: var(--radius);
+  padding: var(--spacing-2) var(--spacing-3);
+}
+
+.back {
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
+  text-align: center;
+  text-decoration: none;
+}
+
+.back:hover {
+  color: var(--primary);
+}

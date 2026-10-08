@@ -1,0 +1,27 @@
+import * as React from "react";
+import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
+import styles from "./Pagination.module.css";
+import buttonStyles from "./Button.module.css";
+const Pagination = ({ className, ...props }) => (<nav role="navigation" aria-label="pagination" className={`${styles.root} ${className ?? ""}`} {...props}/>);
+Pagination.displayName = "Pagination";
+const PaginationContent = React.forwardRef(({ className, ...props }, ref) => (<ul ref={ref} className={`${styles.content} ${className ?? ""}`} {...props}/>));
+PaginationContent.displayName = "PaginationContent";
+const PaginationItem = React.forwardRef(({ className, ...props }, ref) => (<li ref={ref} className={`${styles.item} ${className ?? ""}`} {...props}/>));
+PaginationItem.displayName = "PaginationItem";
+const PaginationLink = ({ className, isActive, ...props }) => (<a aria-current={isActive ? "page" : undefined} className={`${buttonStyles.button} ${styles.link} ${isActive ? styles.active : ""} ${className ?? ""}`} {...props}/>);
+PaginationLink.displayName = "PaginationLink";
+const PaginationPrevious = ({ className, ...props }) => (<PaginationLink aria-label="Go to previous page" className={`${styles.link} ${className ?? ""}`} {...props}>
+    <ChevronLeft className={styles.icon}/>
+    <span>Previous</span>
+  </PaginationLink>);
+PaginationPrevious.displayName = "PaginationPrevious";
+const PaginationNext = ({ className, ...props }) => (<PaginationLink aria-label="Go to next page" className={`${styles.link} ${className ?? ""}`} {...props}>
+    <span>Next</span>
+    <ChevronRight className={styles.icon}/>
+  </PaginationLink>);
+PaginationNext.displayName = "PaginationNext";
+const PaginationEllipsis = ({ className, ...props }) => (<span aria-hidden className={`${styles.ellipsis} ${className ?? ""}`} {...props}>
+    <MoreHorizontal className={styles.icon}/>
+  </span>);
+PaginationEllipsis.displayName = "PaginationEllipsis";
+export { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, };

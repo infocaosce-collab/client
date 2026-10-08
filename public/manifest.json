@@ -1,0 +1,8 @@
+{
+  "name": "OSCE Examination",
+  "short_name": "OSCE",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f6f4ef",
+  "theme_color": "#0f6b66"
+}

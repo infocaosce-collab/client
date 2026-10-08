@@ -1,0 +1,143 @@
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-3);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  color: var(--muted-foreground);
+  flex: 1;
+  max-width: 360px;
+}
+
+.meta {
+  font-size: 0.85rem;
+  color: var(--muted-foreground);
+  margin-left: auto;
+}
+
+.meta strong {
+  font-family: var(--font-family-monospace);
+  color: var(--foreground);
+}
+
+.scroll {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.table th {
+  text-align: left;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted-foreground);
+  padding: var(--spacing-2);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+  vertical-align: bottom;
+}
+
+.table th small {
+  display: block;
+  font-family: var(--font-family-monospace);
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+
+.table td {
+  padding: var(--spacing-2);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.num {
+  text-align: right !important;
+  font-family: var(--font-family-monospace);
+  font-variant-numeric: tabular-nums;
+}
+
+.mono {
+  font-family: var(--font-family-monospace);
+}
+
+.name {
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.total {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.dash {
+  color: var(--muted-foreground);
+}
+
+.empty {
+  text-align: center;
+  color: var(--muted-foreground);
+  padding: var(--spacing-6) !important;
+}
+
+.note {
+  margin: 0;
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+.adminCol {
+  text-align: right;
+  border-left: 1px dashed var(--border);
+  background: var(--background);
+}
+
+.clearList {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.clearRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.clearRow + .clearRow {
+  border-top: 1px solid var(--border);
+}
+
+.clearScore {
+  margin-left: auto;
+  font-family: var(--font-family-monospace);
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
+}

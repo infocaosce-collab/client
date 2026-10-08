@@ -1,0 +1,235 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--spacing-4);
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  align-items: flex-start;
+}
+
+.wide {
+  grid-column: 1 / -1;
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  width: 100%;
+}
+
+.cardHead h2 {
+  font-family: var(--font-family-display);
+  font-weight: 500;
+  font-size: 1.3rem;
+  margin: 0;
+}
+
+.clockRow {
+  display: flex;
+  gap: var(--spacing-6);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.bigTimer {
+  min-width: 180px;
+  padding: var(--spacing-2) var(--spacing-4);
+}
+
+.bigTimer span:last-child {
+  font-size: 2.2rem;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: var(--spacing-1) var(--spacing-6);
+  font-size: 0.85rem;
+  color: var(--muted-foreground);
+}
+
+.statNo {
+  font-family: var(--font-family-monospace);
+  font-weight: 600;
+  color: var(--foreground);
+  font-size: 1rem;
+}
+
+.btnRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+}
+
+.accessRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--spacing-3);
+  width: 100%;
+}
+
+.accessCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.accessOpen {
+  border-left: 4px solid var(--success);
+}
+
+.accessHidden {
+  border-left: 4px solid var(--warning);
+  background: var(--warning-foreground);
+}
+
+.accessLabel {
+  font-weight: 600;
+}
+
+.accessState {
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
+}
+
+.formRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--spacing-3);
+  padding-top: var(--spacing-3);
+  border-top: 1px solid var(--border);
+  width: 100%;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  font-size: 0.85rem;
+  font-weight: 500;
+  width: 100%;
+  max-width: 360px;
+}
+
+.formRow .field {
+  width: auto;
+}
+
+.inlineField {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-3);
+  width: 100%;
+  max-width: 320px;
+  font-size: 0.9rem;
+}
+
+.narrow {
+  width: 120px;
+  font-family: var(--font-family-monospace);
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
+}
+
+.logoRow {
+  display: flex;
+  gap: var(--spacing-3);
+  align-items: flex-start;
+  width: 100%;
+  padding-top: var(--spacing-3);
+  border-top: 1px solid var(--border);
+}
+
+.logo,
+.logoEmpty {
+  width: 88px;
+  height: 88px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  object-fit: contain;
+  background: var(--background);
+  flex-shrink: 0;
+}
+
+.logoEmpty {
+  display: grid;
+  place-items: center;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+.logoActions {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  min-width: 0;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-4);
+}
+
+.linkCard {
+  display: flex;
+  gap: var(--spacing-3);
+  align-items: center;
+  padding: var(--spacing-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--background);
+}
+
+.linkText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.linkText code {
+  font-family: var(--font-family-monospace);
+  font-size: 0.75rem;
+  word-break: break-all;
+}
+
+.linkText code.bigLink {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.inlineCheck {
+  display: flex;
+  gap: var(--spacing-2);
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 800px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,255 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.mono {
+  font-family: var(--font-family-monospace);
+  font-variant-numeric: tabular-nums;
+}
+
+.muted {
+  color: var(--muted-foreground);
+}
+
+.tableCard {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-3);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.toolbarBtns {
+  display: flex;
+  gap: var(--spacing-2);
+}
+
+.note {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted-foreground);
+  max-width: 70ch;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  color: var(--muted-foreground);
+  flex: 1;
+  max-width: 360px;
+}
+
+.tableScroll {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.table th {
+  text-align: left;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted-foreground);
+  font-weight: 600;
+  padding: var(--spacing-2) var(--spacing-3);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.table td {
+  padding: var(--spacing-2) var(--spacing-3);
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.rowActions {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.chips {
+  display: flex;
+  gap: 3px;
+}
+
+.stationBoard {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--spacing-3);
+}
+
+.boardCell {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  align-items: flex-start;
+}
+
+.boardHead {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-2);
+  width: 100%;
+}
+
+.boardNo {
+  font-family: var(--font-family-display);
+  font-size: 1.8rem;
+  line-height: 1;
+  color: var(--primary);
+}
+
+.boardKind {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted-foreground);
+}
+
+.boardCount {
+  margin-left: auto;
+  font-size: 0.75rem;
+  font-family: var(--font-family-monospace);
+}
+
+.boardList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.boardName {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--foreground);
+  cursor: pointer;
+  text-align: left;
+}
+
+.boardName:hover {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.chip {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--background);
+  font-family: var(--font-family-monospace);
+  font-size: 0.72rem;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  padding: 0;
+}
+
+.chip:disabled {
+  cursor: default;
+}
+
+.extendBox {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  padding: var(--spacing-3);
+  border: 1px solid var(--warning);
+  background: var(--warning-foreground);
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+}
+
+.extendBtns {
+  display: flex;
+  gap: var(--spacing-2);
+}
+
+.chipLive {
+  border-color: var(--warning);
+  color: var(--warning);
+  background: var(--warning-foreground);
+}
+
+.chipDone {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.empty {
+  text-align: center;
+  color: var(--muted-foreground);
+  padding: var(--spacing-6) !important;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.twoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-3);
+}
+
+.fieldset {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--spacing-2) var(--spacing-3);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-4);
+}
+
+.fieldset legend {
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0 var(--spacing-1);
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
