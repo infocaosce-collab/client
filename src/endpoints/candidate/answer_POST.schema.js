@@ -4,7 +4,7 @@ export const schema = z.object({
     answers: z
         .array(z.object({
         questionId: z.string().min(1),
-        selectedOption: z.enum(["A", "B", "C", "D", "E"]).nullable(),
+        selectedOption: z.string().regex(/^[A-Z]{1,3}$/).nullable(),
         /** When the device recorded the answer (server-clock estimate, ms). Lets offline work sync late. */
         at: z.number().optional(),
     }))

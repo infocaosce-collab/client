@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useRef } from "react";
-import { useRealtimeChannel, useRealtimeReconnect } from "../components/SocketRealtimeProvider";
+import { useRealtimeChannel, useRealtimeReconnect } from "../components/shared/providers/SocketRealtimeProvider";
 import { channels } from "./realtimeChannels";
 // One shared, throttled refresh for the whole page. Several components can ask
 // for the same keys; every change signal (or reconnect) results in at most ONE

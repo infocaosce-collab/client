@@ -1,0 +1,212 @@
+.page {
+  min-height: 100dvh;
+  background: var(--background);
+}
+
+.main {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: var(--spacing-8) var(--spacing-4);
+}
+
+.heading {
+  font-family: var(--font-family-display);
+  font-weight: 500;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  margin: 0 0 var(--spacing-2);
+}
+
+.lead {
+  color: var(--muted-foreground);
+  max-width: 60ch;
+  margin: 0 0 var(--spacing-6);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--spacing-4);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  padding: var(--spacing-6);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--foreground);
+  transition: border-color var(--animation-duration-fast), box-shadow var(--animation-duration-fast);
+}
+
+.card:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-md);
+}
+
+.icon {
+  color: var(--primary);
+}
+
+.cardTitle {
+  font-family: var(--font-family-display);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.cardBody {
+  font-size: 0.9rem;
+  color: var(--muted-foreground);
+  flex: 1;
+}
+
+.cardLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  font-family: var(--font-family-monospace);
+  font-size: 0.85rem;
+  color: var(--primary);
+}
+
+.stations {
+  list-style: none;
+  padding: 0;
+  margin: var(--spacing-8) 0 0;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.station {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--spacing-3) var(--spacing-1);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted-foreground);
+  background: var(--card);
+}
+
+.station + .station {
+  border-left: 1px solid var(--border);
+}
+
+.stationNo {
+  font-family: var(--font-family-display);
+  font-size: 1.6rem;
+  color: var(--foreground);
+  line-height: 1.1;
+}
+
+/* Examination-type selection (homepage only). All OSCE/CBT examination CSS remains unchanged. */
+.portalIntro {
+  margin-bottom: var(--spacing-6);
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: var(--spacing-3);
+  font-family: var(--font-family-monospace);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--primary);
+  letter-spacing: 0.08em;
+}
+
+.moduleGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--spacing-4);
+}
+
+.moduleCard {
+  display: flex;
+  flex-direction: column;
+  min-height: 260px;
+  padding: var(--spacing-6);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--foreground);
+  transition: border-color var(--animation-duration-fast), box-shadow var(--animation-duration-fast);
+}
+
+.moduleCard:hover,
+.moduleCard:focus-visible {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-md);
+}
+
+.moduleCard:focus-visible,
+.backLink:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+.moduleTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-5);
+}
+
+.moduleIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+}
+
+.moduleCode {
+  color: var(--muted-foreground);
+  font-family: var(--font-family-monospace);
+  font-size: 0.77rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.moduleTitle {
+  margin: 0 0 var(--spacing-2);
+  font-family: var(--font-family-display);
+  font-size: clamp(1.35rem, 3vw, 1.7rem);
+  font-weight: 600;
+}
+
+.moduleDescription {
+  margin: 0 0 var(--spacing-6);
+  color: var(--muted-foreground);
+  line-height: 1.55;
+  flex: 1;
+}
+
+.moduleLink,
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  color: var(--primary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.backLink {
+  margin-bottom: var(--spacing-5);
+}
+
+@media (max-width: 620px) {
+  .moduleGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .moduleCard {
+    min-height: 215px;
+  }
+}

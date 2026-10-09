@@ -1,0 +1,2779 @@
+/* ==========================================================================
+
+   ALACAD CBT — Advanced Examination UI
+
+   --------------------------------------------------------------------------
+
+   • Every rule is scoped to .cbtExamScope (OSCE UI stays untouched)
+
+   • All class names, structure and behaviour hooks are preserved 1:1
+
+   • Minimum font size anywhere: 14px
+
+   • Design tokens, glass surfaces, layered shadows, smooth motion,
+
+     focus-visible accessibility, full dark mode (.cbtNight), reduced-motion
+
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+
+   1. DESIGN TOKENS
+
+   -------------------------------------------------------------------------- */
+
+.cbtExamScope {
+  --c-primary: #2f6df6;
+
+  --c-primary-600: #2459d6;
+
+  --c-primary-soft: #eaf1ff;
+
+  --c-success: #12b886;
+
+  --c-success-600: #0e9a70;
+
+  --c-success-soft: #e6f8f2;
+
+  --c-danger: #f4511e;
+
+  --c-danger-600: #d63f10;
+
+  --c-danger-soft: #fff0eb;
+
+  --c-warning: #f5b400;
+
+  --c-bg: #f3f6fb;
+
+  --c-surface: #ffffff;
+
+  --c-surface-2: #f8fafd;
+
+  --c-surface-3: #eef2f8;
+
+  --c-border: #e2e8f1;
+
+  --c-border-strong: #cdd6e4;
+
+  --c-text: #1c2740;
+
+  --c-text-2: #4a5876;
+
+  --c-text-3: #7a88a5;
+
+  --r-xs: 8px;
+
+  --r-sm: 12px;
+
+  --r-md: 16px;
+
+  --r-lg: 22px;
+
+  --r-xl: 28px;
+
+  --r-pill: 999px;
+
+  /* Containers are flat: borders only, no drop shadows */
+
+  --sh-xs: none;
+
+  --sh-sm: none;
+
+  --sh-md: none;
+
+  --sh-lg: none;
+
+  --sh-glow-primary: 0 8px 22px -6px rgba(47, 109, 246, 0.55);
+
+  --sh-glow-success: 0 8px 22px -6px rgba(18, 184, 134, 0.55);
+
+  --sh-glow-danger: 0 8px 22px -6px rgba(244, 81, 30, 0.55);
+
+  --grad-primary: linear-gradient(
+    135deg,
+    #4a86ff 0%,
+
+    #2f6df6 55%,
+
+    #2459d6 100%
+  );
+
+  --grad-success: linear-gradient(
+    135deg,
+    #2fd4a1 0%,
+
+    #12b886 55%,
+
+    #0e9a70 100%
+  );
+
+  --grad-danger: linear-gradient(135deg, #ff7a4a 0%, #f4511e 55%, #d63f10 100%);
+
+  --grad-page:
+    radial-gradient(
+      1100px 520px at 8% -10%,
+
+      rgba(47, 109, 246, 0.1),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 480px at 100% 0%,
+
+      rgba(18, 184, 134, 0.1),
+      transparent 55%
+    ),
+    var(--c-bg);
+
+  --ease: cubic-bezier(0.22, 0.8, 0.24, 1);
+
+  --t-fast: 0.16s var(--ease);
+
+  --t-med: 0.28s var(--ease);
+
+  --font:
+    "Inter", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial,
+    sans-serif;
+
+  --mono: "JetBrains Mono", "SF Mono", Consolas, "Courier New", monospace;
+}
+
+/* --------------------------------------------------------------------------
+
+   2. BASE
+
+   -------------------------------------------------------------------------- */
+
+.cbtExamScope {
+  font-family: var(--font);
+
+  background: var(--grad-page);
+
+  color: var(--c-text);
+
+  min-height: 100vh;
+
+  font-size: 16px;
+
+  line-height: 1.5;
+
+  letter-spacing: -0.003em;
+
+  -webkit-font-smoothing: antialiased;
+
+  -moz-osx-font-smoothing: grayscale;
+
+  text-rendering: optimizeLegibility;
+}
+
+.cbtExamScope *,
+.cbtExamScope *::before,
+.cbtExamScope *::after {
+  box-sizing: border-box;
+}
+
+.cbtExamScope button {
+  border: none;
+
+  font-family: inherit;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  -webkit-tap-highlight-color: transparent;
+
+  transition:
+    transform var(--t-fast),
+    box-shadow var(--t-fast),
+    background-color var(--t-fast),
+    color var(--t-fast),
+    filter var(--t-fast);
+}
+
+.cbtExamScope button:active:not(:disabled) {
+  transform: translateY(1px) scale(0.985);
+}
+
+.cbtExamScope button:disabled {
+  opacity: 0.45;
+
+  cursor: not-allowed;
+
+  filter: grayscale(0.4);
+
+  box-shadow: none;
+}
+
+.cbtExamScope button:focus-visible,
+.cbtExamScope a:focus-visible,
+.cbtExamScope input:focus-visible,
+.cbtExamScope select:focus-visible,
+.cbtExamScope textarea:focus-visible {
+  outline: 3px solid rgba(47, 109, 246, 0.45);
+
+  outline-offset: 2px;
+}
+
+.cbtExamScope figure,
+.cbtExamScope p {
+  margin: 0;
+}
+
+.cbtExamScope ::selection {
+  background: rgba(47, 109, 246, 0.22);
+}
+
+/* Custom scrollbars */
+
+.cbtExamScope * {
+  scrollbar-width: thin;
+
+  scrollbar-color: var(--c-border-strong) transparent;
+}
+
+.cbtExamScope *::-webkit-scrollbar {
+  width: 10px;
+
+  height: 10px;
+}
+
+.cbtExamScope *::-webkit-scrollbar-thumb {
+  background: var(--c-border-strong);
+
+  border-radius: var(--r-pill);
+
+  border: 2px solid transparent;
+
+  background-clip: content-box;
+}
+
+.cbtExamScope *::-webkit-scrollbar-thumb:hover {
+  background: var(--c-text-3);
+
+  background-clip: content-box;
+
+  border: 2px solid transparent;
+}
+
+/* Layout helpers */
+
+.cbtExamScope .fx-ac {
+  display: flex;
+
+  align-items: center;
+}
+
+.cbtExamScope .fx-cl {
+  display: flex;
+
+  flex-direction: column;
+}
+
+.cbtExamScope .fx-jb {
+  justify-content: space-between;
+}
+
+.cbtExamScope .fx-jc {
+  justify-content: center;
+}
+
+.cbtExamScope .space1 {
+  gap: 0.45rem;
+}
+
+.cbtExamScope .space2 {
+  gap: 0.8rem;
+}
+
+.cbtExamScope .space3 {
+  gap: 1.05rem;
+}
+
+.cbtExamScope .space4 {
+  gap: 1.35rem;
+}
+
+.cbtExamScope .space6 {
+  gap: 1.65rem;
+}
+
+.cbtExamScope .spacem {
+  gap: 0.5rem;
+}
+
+.cbtExamScope.sectionCBTExamsHub {
+  padding-top: 0;
+
+  font-size: 16px;
+}
+
+@keyframes cbtFadeUp {
+  from {
+    opacity: 0;
+
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: none;
+  }
+}
+
+@keyframes cbtPop {
+  from {
+    opacity: 0;
+
+    transform: scale(0.94) translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: none;
+  }
+}
+
+@keyframes cbtFade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes cbtPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(244, 81, 30, 0.45);
+  }
+
+  50% {
+    box-shadow: 0 0 0 8px rgba(244, 81, 30, 0);
+  }
+}
+
+body:has(.cbtExamScope.sectionCBTExamsHub) {
+  margin: 0;
+}
+
+/* CBT examination only: edge-to-edge outer wrapper; internal cards retain their styling. */
+.cbtExamScope.sectionCBTExamsHub {
+  width: 100vw;
+  max-width: none;
+  margin: 0 0 0 calc(50% - 50vw);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+
+   3. HEADER  (compact, single slim bar)
+
+   -------------------------------------------------------------------------- */
+
+.cbtExamScope .ctbExamsHubHeader {
+  padding: 8px 20px;
+
+  position: sticky;
+
+  top: 0;
+
+  z-index: 50;
+
+  background: rgba(255, 255, 255, 0.88);
+
+  backdrop-filter: saturate(180%) blur(14px);
+
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+
+  border-bottom: 1px solid var(--c-border);
+
+  box-shadow: none;
+}
+
+.cbtExamScope .ctbExamsHubHeader::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+
+  right: 0;
+
+  bottom: -1px;
+
+  height: 2px;
+
+  background: linear-gradient(
+    90deg,
+    var(--c-primary),
+    var(--c-success) 55%,
+
+    transparent 100%
+  );
+
+  opacity: 0.9;
+
+  pointer-events: none;
+}
+
+.cbtExamScope .cbtExamsHubheaderCont {
+  gap: 0.75rem;
+
+  min-height: 0;
+}
+
+.cbtExamScope .cbtExamshubHeading {
+  font-size: 18px;
+
+  font-weight: 800;
+
+  line-height: 1.2;
+
+  letter-spacing: -0.015em;
+
+  background: linear-gradient(90deg, var(--c-text), #34508f);
+
+  -webkit-background-clip: text;
+
+  background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+}
+
+.cbtExamScope .cbtExamshubStatusBar {
+  font-size: 14px;
+
+  line-height: 1.25;
+
+  color: var(--c-text-3);
+
+  font-weight: 500;
+}
+
+.cbtExamScope .ctbExamsHubRight {
+  display: flex;
+
+  align-items: center;
+
+  gap: 0.5rem;
+
+  min-width: 0;
+}
+
+.cbtExamScope .ctbExamsHubRight span {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 0.35rem;
+
+  padding: 5px 12px;
+
+  border-radius: var(--r-pill);
+
+  background: var(--c-surface-2);
+
+  border: 1px solid var(--c-border);
+
+  color: var(--c-text-2);
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  line-height: 1.3;
+
+  font-variant-numeric: tabular-nums;
+
+  overflow-wrap: anywhere;
+}
+
+.cbtExamScope .ctbExamsHubRight .cbtdp {
+  width: 36px;
+
+  height: 36px;
+
+  padding: 0;
+
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: var(--grad-primary);
+
+  border: 2px solid #fff;
+
+  color: #fff;
+
+  overflow: hidden;
+
+  font-weight: 700;
+
+  font-size: 14px;
+}
+
+.cbtExamScope .cbtSchoolBadge {
+  background: var(--c-surface);
+
+  border: 1px solid var(--c-border);
+
+  border-radius: 50%;
+
+  width: 38px;
+
+  height: 38px;
+}
+
+.cbtExamScope .cbtdp {
+  font-weight: 700;
+
+  font-size: 14px;
+}
+
+/* --------------------------------------------------------------------------
+
+   4. MAIN GRID
+
+   -------------------------------------------------------------------------- */
+
+.cbtExamScope .ctbExamsHubMain {
+  display: grid;
+
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
+
+  margin: 0;
+
+  gap: 16px;
+
+  align-items: start;
+
+  animation: cbtFadeUp 0.5s var(--ease) both;
+
+  padding: 20px 45px 50px;
+}
+
+.cbtExamScope .ctbExamsHubMain > .main {
+  min-width: 0;
+}
+
+.cbtExamScope .ctbExamsHubMain > .aside {
+  min-width: 0;
+}
+
+.cbtExamScope .ctbExamsHubMain aside {
+  max-height: 80vh;
+}
+
+.cbtExamScope .ctbExamsHubMain .aside {
+  background: var(--c-surface);
+
+  border: 1px solid var(--c-border);
+
+  color: var(--c-text);
+
+  padding: 18px 16px;
+
+  border-radius: var(--r-lg);
+
+  box-shadow: var(--sh-md);
+
+  gap: 1rem;
+
+  position: sticky;
+
+  top: 70px;
+
+  overflow: auto;
+}
+
+/* --------------------------------------------------------------------------
+
+   5. SUBJECT TABS
+
+   -------------------------------------------------------------------------- */
+
+.cbtExamScope .ctbExamsHubSubjects {
+  margin-bottom: 6px;
+
+  overflow-x: auto;
+
+  padding: 4px 2px;
+
+  scroll-snap-type: x proximity;
+}
+
+.cbtExamScope .ctbExamsHubSubjects button {
+  flex: 0 0 auto;
+
+  padding: 7px 12px;
+
+  border-radius: var(--r-pill);
+
+  background: var(--c-surface);
+
+  color: var(--c-text-2);
+
+  border: 1px solid var(--c-border);
+
+  box-shadow: var(--sh-xs);
+
+  text-align: center;
+
+  width: auto;
+
+  min-width: 6.5rem;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  scroll-snap-align: start;
+}
+
+.cbtExamScope .ctbExamsHubSubjects button:hover,
+.cbtExamScope .ctbExamsHubSubjects button:active {
+  background: var(--c-primary-soft);
+
+  color: var(--c-primary);
+
+  border-color: rgba(47, 109, 246, 0.35);
+
+  transform: translateY(-2px);
+
+  box-shadow: var(--sh-md);
+}
+
+.cbtExamScope .ctbExamsHubSubjects .active,
+.cbtExamScope .ctbExamsHubSubjects button.active {
+  background: var(--grad-success);
+
+  color: #fff;
+
+  border-color: transparent;
+
+  box-shadow: 0 3px 9px -5px rgba(18, 184, 134, 0.28);
+}
+
+/* --------------------------------------------------------------------------
+
+   6. QUESTION CARD
+
+   -------------------------------------------------------------------------- */
+
+.cbtExamScope .ctbExamsHubMiddleWare {
+  position: absolute;
+
+  top: -39px;
+
+  left: 0;
+
+  width: 100%;
+
+  padding: 0 12px;
+}
+
+.cbtExamScope .ctbExamsHubMiddleWare button {
+  padding: 7px 12px;
+  border: 1px solid var(--c-border);
+  background: var(--c-surface);
+  font-weight: 700;
+  box-shadow: 0 2px 7px rgba(28, 39, 64, 0.06);
+
+  border-radius: var(--r-sm);
+
+  background: transparent;
+
+  color: var(--c-text-2);
+
+  font-size: 14px;
+}
+
+.cbtExamScope .ctbExamsHubMiddleWare button:hover {
+  background: var(--c-surface);
+
+  box-shadow: var(--sh-sm);
+}
+
+.cbtExamScope .counterIcon {
+  background: var(--c-surface);
+
+  border: 3px solid var(--c-danger);
+
+  border-radius: var(--r-pill);
+
+  width: 28px;
+
+  height: 28px;
+
+  animation: cbtPulse 2s ease-in-out infinite;
+}
+
+.cbtExamScope .ctbExamsHubQuestion {
+  margin-top: 42px;
+
+  min-height: 0;
+
+  padding: 38px 22px 18px;
+
+  border-radius: var(--r-lg);
+
+  background: var(--c-surface);
+
+  border: 1px solid var(--c-border);
+
+  color: var(--c-text);
+
+  position: relative;
+
+  box-shadow: var(--sh-md);
+
+  animation: cbtFadeUp 0.45s var(--ease) both;
+}
+
+.cbtExamScope .ctbExamsHubQuestion::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+
+  top: 22px;
+
+  bottom: 22px;
+
+  width: 4px;
+
+  border-radius: 0 4px 4px 0;
+
+  background: var(--grad-primary);
+}
+
+.cbtExamScope .ctbExamsHubQuestionCounts {
+  max-width: 14rem;
+
+  background: var(--c-primary-soft);
+
+  color: var(--c-primary-600);
+
+  border-radius: var(--r-pill);
+
+  padding: 6px 14px;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  margin-top: 8px;
+
+  letter-spacing: 0.01em;
+}
+
+.cbtExamScope .ctbExamsHubQuestionBtn {
+  max-width: none;
+
+  background: transparent;
+
+  padding: 0;
+
+  position: absolute;
+
+  right: 18px;
+
+  top: 18px;
+
+  display: flex;
+
+  gap: 14px;
+}
+
+.cbtExamScope .cbtTheQuestion {
+  height: auto;
+
+  min-height: 3rem;
+
+  font-size: 20px;
+
+  font-weight: 500;
+
+  line-height: 1.65;
+
+  padding: 8px 4px;
+
+  margin-top: 6px;
+
+  color: var(--c-text);
+
+  overflow-wrap: anywhere;
+
+  white-space: pre-wrap;
+}
+
+.cbtExamScope .switchQuestionToScroll {
+  overflow-x: hidden;
+
+  overflow-y: scroll;
+
+  font-size: 18px;
+
+  line-height: 1.65;
+
+  padding: 16px;
+
+  padding-top: 26px;
+}
+
+.cbtExamScope .switchQuestionFontSizeMedium {
+  font-size: 20px;
+}
+
+/* --------------------------------------------------------------------------
+
+   7. ANSWER OPTIONS
+
+   -------------------------------------------------------------------------- */
+
+.cbtExamScope .exHubOptionCont {
+  margin-top: 16px;
+
+  display: grid;
+
+  gap: 12px;
+}
+
+.cbtExamScope .optionSelectionEx {
+  position: relative;
+
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 14px;
+
+  min-height: 44px;
+
+  padding: 9px 14px;
+
+  border-radius: var(--r-md);
+
+  border: 1.5px solid var(--c-border);
+
+  background: var(--c-surface);
+
+  cursor: pointer;
+
+  font-size: 17px;
+
+  font-weight: 400;
+
+  line-height: 1.5;
+
+  color: var(--c-text);
+
+  box-shadow: var(--sh-xs);
+
+  transition:
+    border-color var(--t-fast),
+    background-color var(--t-fast),
+    box-shadow var(--t-fast),
+    transform var(--t-fast);
+}
+
+.cbtExamScope .optionSelectionEx::before {
+  content: "";
+
+  flex: 0 0 auto;
+
+  width: 24px;
+
+  height: 24px;
+
+  margin-top: 1px;
+
+  padding: 0;
+
+  border-radius: 50%;
+
+  border: 2.5px solid var(--c-border-strong);
+
+  background: var(--c-surface);
+
+  box-shadow: inset 0 0 0 4px var(--c-surface);
+
+  transition: all var(--t-fast);
+}
+
+.cbtExamScope .optionSelectionEx input {
+  position: absolute;
+
+  opacity: 0;
+
+  width: 1px;
+
+  height: 1px;
+}
+
+.cbtExamScope .optionSelectionEx:hover {
+  background: var(--c-surface-2);
+
+  border-color: rgba(47, 109, 246, 0.45);
+
+  transform: translateX(3px);
+
+  box-shadow: var(--sh-sm);
+}
+
+.cbtExamScope .optionSelectionEx:hover::before {
+  border-color: var(--c-primary);
+}
+
+.cbtExamScope .optionSelectionEx:focus-within {
+  outline: 3px solid rgba(47, 109, 246, 0.35);
+
+  outline-offset: 2px;
+}
+
+.cbtExamScope .optionSelectionEx.checkedExOpt {
+  background: linear-gradient(135deg, var(--c-success-soft), #f4fcf9);
+
+  border-color: var(--c-success);
+
+  font-weight: 500;
+}
+
+.cbtExamScope .optionSelectionEx.checkedExOpt::before {
+  border: 2.5px solid var(--c-success);
+
+  background: var(--c-success);
+
+  box-shadow: inset 0 0 0 4px var(--c-surface);
+}
+
+.cbtExamScope .checkEx::before {
+  border: 2.5px solid var(--c-primary);
+}
+
+.cbtExamScope .exOptionsType {
+  font-weight: 500;
+
+  color: var(--c-text-3);
+
+  margin-left: 0.5rem;
+
+  font-size: 14px;
+}
+
+/* --------------------------------------------------------------------------
+
+   8. OPERATIONS BAR (prev / next / submit / icon buttons)
+
+   -------------------------------------------------------------------------- */
+
+.cbtExamScope .ctbExamsHubOperations {
+  justify-content: space-between;
+
+  gap: 12px;
+
+  flex-wrap: wrap;
+
+  margin-top: 14px;
+
+  padding: 9px 12px;
+
+  background: var(--c-surface);
+
+  border: 1px solid var(--c-border);
+
+  border-radius: var(--r-lg);
+
+  box-shadow: var(--sh-sm);
+}
+
+.cbtExamScope .ctbExamsHubOperations figure {
+  flex-wrap: wrap;
+}
+
+.cbtExamScope .ctbExamsHubQuestionBtn button,
+.cbtExamScope .ctbExamsHubOperations button {
+  height: 44px;
+
+  width: 44px;
+
+  border-radius: 50%;
+
+  padding: 4px;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  background: var(--c-surface);
+
+  color: var(--c-text-2);
+
+  border: 1px solid var(--c-border);
+
+  box-shadow: var(--sh-sm);
+
+  font-size: 14px;
+
+  position: relative;
+}
+
+.cbtExamScope .ctbExamsHubQuestionBtn button svg,
+.cbtExamScope .ctbExamsHubOperations figure button svg {
+  max-width: 22px;
+
+  max-height: 22px;
+}
+
+.cbtExamScope .ctbExamsHubQuestionBtn button:first-child {
+  background: var(--c-success-soft);
+
+  color: var(--c-success-600);
+
+  border-color: transparent;
+}
+
+.cbtExamScope .ctbExamsHubQuestionBtn button:nth-child(2) {
+  background: var(--grad-primary);
+
+  color: #fff;
+
+  border-color: transparent;
+
+  box-shadow: var(--sh-glow-primary);
+}
+
+.cbtExamScope .ctbExamsHubOperations button.active {
+  background: var(--grad-success);
+
+  color: #fff;
+
+  border-color: transparent;
+
+  box-shadow: var(--sh-glow-success);
+}
+
+.cbtExamScope .ctbExamsHubOperations button.submit {
+  width: auto;
+
+  min-width: 140px;
+
+  padding: 12px 24px;
+
+  border-radius: var(--r-pill);
+
+  text-align: center;
+
+  background: var(--grad-danger);
+
+  color: #fff;
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+  border: none;
+
+  letter-spacing: 0.01em;
+
+  box-shadow: var(--sh-glow-danger);
+}
+
+.cbtExamScope .ctbExamsHubOperations .prev button,
+.cbtExamScope .ctbExamsHubOperations .next button {
+  width: auto;
+
+  min-width: 118px;
+
+  height: 46px;
+
+  padding: 10px 22px;
+
+  border-radius: var(--r-sm);
+
+  text-align: center;
+
+  color: #fff;
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+  border: none;
+
+  gap: 0.4rem;
+}
+
+.cbtExamScope .ctbExamsHubOperations .next button {
+  background: var(--grad-success);
+
+  box-shadow: var(--sh-glow-success);
+}
+
+.cbtExamScope .ctbExamsHubOperations .prev button {
+  background: var(--grad-primary);
+
+  box-shadow: var(--sh-glow-primary);
+}
+
+.cbtExamScope .ctbExamsHubOperations button:hover,
+.cbtExamScope .ctbExamsHubOperations button:active {
+  background: var(--c-surface-3);
+
+  color: var(--c-text);
+
+  transform: translateY(-2px);
+}
+
+.cbtExamScope .ctbExamsHubOperations .prev button:hover {
+  background: var(--grad-primary);
+
+  color: #fff;
+
+  filter: brightness(1.08);
+}
+
+.cbtExamScope .ctbExamsHubOperations .next button:hover {
+  background: var(--grad-success);
+
+  color: #fff;
+
+  filter: brightness(1.08);
+}
+
+.cbtExamScope .ctbExamsHubOperations button.submit:hover {
+  background: var(--grad-primary);
+
+  color: #fff;
+
+  box-shadow: var(--sh-glow-primary);
+}
+
+/* Tooltips */
+
+.cbtExamScope .ctbExamsHubQuestionBtn button .tooltips,
+.cbtExamScope .ctbExamsHubOperations button .tooltips {
+  display: none;
+
+  position: absolute;
+
+  left: 50%;
+
+  bottom: 0;
+
+  transform: translate(-50%, calc(100% + 6px));
+
+  white-space: nowrap;
+
+  font-size: 14px;
+
+  font-weight: 500;
+
+  font-style: normal;
+
+  padding: 6px 14px;
+
+  border-radius: var(--r-pill);
+
+  background: rgba(20, 30, 55, 0.92);
+
+  box-shadow: var(--sh-lg);
+
+  color: #fff;
+
+  z-index: 20;
+
+  pointer-events: none;
+}
+
+.cbtExamScope .ctbExamsHubQuestionBtn button:hover .tooltips,
+.cbtExamScope .ctbExamsHubOperations button:hover .tooltips {
+  display: block;
+
+  animation: cbtFade 0.15s ease-out;
+}
+
+/* --------------------------------------------------------------------------
+
+   9. QUESTION NAVIGATOR (pagination)
+
+   -------------------------------------------------------------------------- */
+
+.cbtExamScope .ctbExamsHubPaginationsCont {
+  display: grid;
+
+  grid-template-columns: repeat(15, minmax(0, 1fr));
+
+  border-radius: var(--r-md);
+
+  gap: 12px;
+
+  row-gap: 12px;
+
+  padding: 12px;
+}
+
+.cbtExamScope .ctbExamsHubPaginationsCont .pagination-button {
+  width: min(42px, 100%);
+
+  height: 25.5px;
+
+  min-height: 25.5px;
+
+  justify-self: center;
+
+  padding: 0 4px;
+
+  border-radius: 10px;
+
+  background: var(--c-surface-2);
+
+  color: var(--c-text-2);
+
+  outline: 1.5px solid var(--c-border-strong);
+
+  outline-offset: 2px;
+
+  font-family: var(--font);
+
+  font-variant-numeric: tabular-nums;
+
+  font-size: 14px;
+
+  font-weight: 700;
+}
+
+.cbtExamScope .ctbExamsHubPaginationsCont .pagination-button:hover {
+  background: var(--c-danger);
+
+  color: #fff;
+
+  outline: 1.5px solid var(--c-danger);
+
+  transform: translateY(-2px) scale(1.08);
+
+  box-shadow: var(--sh-glow-danger);
+}
+
+.cbtExamScope .ctbExamsHubPaginationsCont .pagination-button.peginationChecked {
+  background: var(--grad-primary);
+
+  outline: 1.5px solid var(--c-primary);
+
+  color: #fff;
+}
+
+.cbtExamScope .ctbExamsHubPaginationsCont .pagination-button.active {
+  background: var(--c-text);
+
+  color: #fff;
+
+  outline: 1.5px solid var(--c-text);
+
+  transform: scale(1.1);
+}
+
+.cbtExamScope
+  .ctbExamsHubPaginationsCont
+  .pagination-button.peginationChecked.active {
+  background: var(--grad-success);
+
+  color: #fff;
+
+  outline: 1.5px solid var(--c-success);
+
+  box-shadow: var(--sh-glow-success);
+}
+
+.cbtExamScope .ctbExamsHubPaginationsCont .pagination-button.cbtFlagged {
+  box-shadow:
+    0 0 0 3px var(--c-surface),
+    0 0 0 5px var(--c-danger);
+}
+
+/* --------------------------------------------------------------------------
+
+   10. ASIDE: NAV, INSTRUCTIONS, STATUS
+
+   -------------------------------------------------------------------------- */
+
+.cbtExamScope .ctbExamsHubAsideNav {
+  background: var(--c-surface-2);
+
+  border: 1px solid var(--c-border);
+
+  padding: 6px;
+
+  border-radius: var(--r-md);
+
+  max-width: 26rem;
+}
+
+.cbtExamScope .ctbExamsHubAsideNav button {
+  background: transparent;
+
+  color: var(--c-text-2);
+
+  padding: 9px 14px;
+
+  border-radius: var(--r-sm);
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+.cbtExamScope .ctbExamsHubAsideNav button:hover {
+  background: var(--c-success-soft);
+
+  color: var(--c-success-600);
+}
+
+.cbtExamScope .ctbExamsHubAsideNav button.active {
+  background: var(--grad-success);
+
+  color: #fff;
+
+  box-shadow: var(--sh-glow-success);
+}
+
+.cbtExamScope .Instructions,
+.cbtExamScope .Regulations,
+.cbtExamScope .OperatingGuide {
+  background: var(--c-surface-2);
+
+  border: 1px solid var(--c-border);
+
+  border-radius: var(--r-md);
+
+  padding: 18px 16px;
+}
+
+.cbtExamScope .Instructions {
+  font-size: 15px;
+
+  line-height: 1.65;
+
+  overflow-wrap: anywhere;
+
+  color: var(--c-text-2);
+}
+
+.cbtExamScope .Instructions ol {
+  padding-left: 1.3rem;
+}
+
+.cbtExamScope .Instructions li {
+  margin-bottom: 0.45rem;
+}
+
+.cbtExamScope .Instructions li::marker {
+  color: var(--c-primary);
+
+  font-weight: 700;
+}
+
+.cbtExamScope .cbtAsideStatus {
+  display: flex;
+
+  gap: 0.6rem;
+
+  align-items: center;
+
+  padding: 12px 14px;
+
+  background: var(--c-surface);
+
+  border: 1px solid var(--c-border);
+
+  border-radius: var(--r-md);
+
+  font-size: 15px;
+
+  font-weight: 600;
+
+  box-shadow: var(--sh-xs);
+}
+
+.cbtExamScope .cbtLegend {
+  margin: 1rem 0;
+
+  font-size: 14px;
+
+  color: var(--c-text-2);
+}
+
+.cbtExamScope .cbtSyncState {
+  font-size: 14px;
+
+  color: var(--c-text-2);
+
+  padding: 10px 0;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 0.6rem;
+
+  flex-wrap: wrap;
+}
+
+.cbtExamScope .cbtSyncState button {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 0.35rem;
+
+  background: var(--c-success-soft);
+
+  color: var(--c-success-600);
+
+  padding: 7px 14px;
+
+  border-radius: var(--r-pill);
+
+  font-size: 14px;
+}
+
+.cbtExamScope .cbtSyncState button:hover {
+  background: var(--c-success);
+
+  color: #fff;
+}
+
+.cbtExamScope .cbtBlank {
+  border-radius: var(--r-md);
+
+  padding: 2.5rem 1rem;
+
+  text-align: center;
+
+  background: var(--c-surface-2);
+
+  border: 2px dashed var(--c-border-strong);
+
+  color: var(--c-text-3);
+
+  font-size: 15px;
+}
+
+/* --------------------------------------------------------------------------
+
+   11. FOOTER
+
+   -------------------------------------------------------------------------- */
+
+.cbtExamScope .ctbExamsHubFooter {
+  padding: 14px 24px;
+
+  font-family: var(--font);
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  letter-spacing: 0.08em;
+
+  text-transform: uppercase;
+
+  text-align: center;
+
+  color: var(--c-text-2);
+
+  background: linear-gradient(
+    90deg,
+    var(--c-success-soft),
+    var(--c-primary-soft)
+  );
+
+  border: 1px solid var(--c-border);
+
+  border-radius: var(--r-xl);
+
+  margin: 12px 0;
+}
+
+/* --------------------------------------------------------------------------
+
+   12. MODALS
+
+   -------------------------------------------------------------------------- */
+
+.cbtExamScope #modalContainer {
+  background: rgba(15, 25, 50, 0.55);
+
+  backdrop-filter: blur(8px);
+
+  -webkit-backdrop-filter: blur(8px);
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  position: fixed;
+
+  top: 0;
+
+  right: 0;
+
+  min-height: 100vh;
+
+  width: 100%;
+
+  z-index: 99999999;
+
+  animation: cbtFade 0.2s ease-out;
+}
+
+.cbtExamScope .cbtModal {
+  position: fixed;
+
+  inset: 0;
+
+  background: rgba(15, 25, 50, 0.58);
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 16px;
+
+  z-index: 2500;
+
+  backdrop-filter: blur(10px);
+
+  -webkit-backdrop-filter: blur(10px);
+
+  animation: cbtFade 0.2s ease-out;
+}
+
+.cbtExamScope .cbtDialog {
+  max-height: 90vh;
+
+  overflow: auto;
+
+  width: min(100%, 36rem);
+
+  background: var(--c-surface);
+
+  color: var(--c-text);
+
+  padding: 28px;
+
+  border-radius: var(--r-xl);
+
+  border: 1px solid var(--c-border);
+
+  box-shadow: var(--sh-lg);
+
+  animation: cbtPop 0.32s var(--ease) both;
+}
+
+.cbtExamScope .cbtDialog h2 {
+  margin: 0 0 12px;
+
+  font-size: 22px;
+
+  font-weight: 800;
+
+  letter-spacing: -0.02em;
+}
+
+.cbtExamScope .cbtDialog p {
+  margin-bottom: 16px;
+
+  line-height: 1.65;
+
+  white-space: pre-wrap;
+
+  color: var(--c-text-2);
+
+  font-size: 16px;
+}
+
+.cbtExamScope .cbtDialogActions {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 12px;
+
+  justify-content: flex-end;
+
+  margin-top: 20px;
+}
+
+.cbtExamScope .cbtDialogActions button {
+  padding: 12px 22px;
+
+  border-radius: var(--r-sm);
+
+  background: var(--c-surface-3);
+
+  color: var(--c-text);
+
+  font-size: 15px;
+}
+
+.cbtExamScope .cbtDialogActions button:hover {
+  background: var(--c-border);
+}
+
+.cbtExamScope .cbtDialogActions button:last-child {
+  background: var(--grad-primary);
+
+  color: #fff;
+
+  box-shadow: var(--sh-glow-primary);
+}
+
+.cbtExamScope .cbtDialogActions button:last-child:hover {
+  filter: brightness(1.08);
+
+  transform: translateY(-1px);
+}
+
+.cbtExamScope .cbtBigTime {
+  text-align: center;
+
+  font-size: 40px;
+
+  font-weight: 800;
+
+  font-family: var(--mono);
+
+  font-variant-numeric: tabular-nums;
+
+  letter-spacing: 0.02em;
+
+  background: var(--grad-success);
+
+  -webkit-background-clip: text;
+
+  background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+}
+
+/* --------------------------------------------------------------------------
+
+   13. CALCULATOR
+
+   -------------------------------------------------------------------------- */
+
+.cbtExamScope .calculator-calcu {
+  max-width: 320px;
+
+  margin: 1rem auto;
+
+  background: linear-gradient(160deg, #262a45 0%, #181b30 100%);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  border-radius: var(--r-lg);
+
+  box-shadow: none;
+
+  padding: 18px;
+}
+
+.cbtExamScope .display-calcu {
+  background: linear-gradient(180deg, #151829, #1e2238);
+
+  color: #fff;
+
+  font-family: var(--mono);
+
+  font-size: 32px;
+
+  font-weight: 300;
+
+  padding: 14px 16px;
+
+  text-align: right;
+
+  border-radius: var(--r-md);
+
+  margin-bottom: 14px;
+
+  overflow-x: auto;
+
+  min-height: 62px;
+}
+
+.cbtExamScope .buttons-calcu {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 10px;
+}
+
+.cbtExamScope .btn-calcu {
+  padding: 14px 10px;
+
+  font-size: 18px;
+
+  font-weight: 600;
+
+  background: linear-gradient(180deg, #454a6e, #383c5c);
+
+  color: #fff;
+
+  border: none;
+
+  border-radius: var(--r-sm);
+
+  cursor: pointer;
+
+  box-shadow:
+    0 4px 0 #262942,
+    0 8px 14px -6px rgba(0, 0, 0, 0.55);
+
+  transition: all 0.15s ease-in-out;
+}
+
+.cbtExamScope .btn-calcu:hover {
+  background: linear-gradient(180deg, #5a6090, #484d74);
+
+  transform: translateY(-2px);
+}
+
+.cbtExamScope .btn-calcu:active:not(:disabled) {
+  transform: translateY(3px);
+
+  box-shadow: 0 1px 0 #262942;
+}
+
+.cbtExamScope .operator-calcu {
+  background: linear-gradient(180deg, #ff8a8a, #ff6b6b);
+
+  box-shadow:
+    0 4px 0 #c94b4b,
+    0 8px 14px -6px rgba(0, 0, 0, 0.55);
+}
+
+.cbtExamScope .operator-calcu:hover {
+  background: linear-gradient(180deg, #ffa0a0, #ff7f7f);
+}
+
+.cbtExamScope .buttons-calcu button:nth-child(12) {
+  grid-row: span 2;
+}
+
+.cbtExamScope .buttons-calcu button:nth-child(18) {
+  background: linear-gradient(180deg, #2fd4a1, #12b886);
+
+  box-shadow:
+    0 4px 0 #0b8561,
+    0 8px 14px -6px rgba(0, 0, 0, 0.55);
+
+  grid-column: span 2;
+}
+
+.cbtExamScope .buttons-calcu button:nth-child(1) {
+  background: linear-gradient(180deg, #ff7a4a, #f4511e);
+
+  box-shadow:
+    0 4px 0 #b53a12,
+    0 8px 14px -6px rgba(0, 0, 0, 0.55);
+}
+
+.cbtExamScope .buttons-calcu button:nth-child(4) {
+  background: linear-gradient(180deg, #f2dc62, #e9d044);
+
+  color: #3b3300;
+
+  box-shadow:
+    0 4px 0 #b39d22,
+    0 8px 14px -6px rgba(0, 0, 0, 0.55);
+}
+
+/* --------------------------------------------------------------------------
+
+   14. WAITING SCREEN
+
+   -------------------------------------------------------------------------- */
+
+.cbtExamScope.cbtWaiting {
+  background: var(--grad-page);
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 32px;
+
+  gap: 16px;
+}
+
+.cbtExamScope .cbtWaitingCard {
+  background: var(--c-surface);
+
+  border: 1px solid var(--c-border);
+
+  width: min(100%, 46rem);
+
+  text-align: center;
+
+  border-radius: var(--r-xl);
+
+  padding: 48px 40px;
+
+  box-shadow: var(--sh-lg);
+
+  animation: cbtPop 0.5s var(--ease) both;
+}
+
+.cbtExamScope .cbtWaitingCard h1 {
+  font-size: 28px;
+
+  font-weight: 800;
+
+  letter-spacing: -0.02em;
+}
+
+.cbtExamScope .cbtWaitingCard h2 {
+  margin: 14px 0;
+
+  font-size: 20px;
+
+  color: var(--c-text-2);
+}
+
+.cbtExamScope .cbtWaitingCard p {
+  margin: 20px 0;
+
+  line-height: 1.65;
+
+  color: var(--c-text-2);
+
+  font-size: 16px;
+}
+
+.cbtExamScope .cbtWaitingActions {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 16px;
+
+  margin-top: 24px;
+
+  flex-wrap: wrap;
+}
+
+.cbtExamScope .cbtWaitingActions button {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 0.5rem;
+
+  padding: 13px 26px;
+
+  border-radius: var(--r-pill);
+
+  background: var(--grad-primary);
+
+  color: #fff;
+
+  font-size: 15px;
+
+  box-shadow: var(--sh-glow-primary);
+}
+
+.cbtExamScope .cbtWaitingActions button:hover {
+  transform: translateY(-2px);
+
+  filter: brightness(1.08);
+}
+
+/* --------------------------------------------------------------------------
+
+   15. ADMIN PAGES & RESULTS
+
+   -------------------------------------------------------------------------- */
+
+.cbtExamScope.cbtAdminPage {
+  background: var(--grad-page);
+
+  font-size: 16px;
+}
+
+.cbtExamScope .cbtAdminTop {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 16px;
+
+  padding: 24px 48px;
+
+  background: rgba(255, 255, 255, 0.8);
+
+  backdrop-filter: blur(14px);
+
+  -webkit-backdrop-filter: blur(14px);
+
+  border-bottom: 1px solid var(--c-border);
+}
+
+.cbtExamScope .cbtAdminTop h1 {
+  margin: 0 0 6px;
+
+  font-size: 28px;
+
+  font-weight: 800;
+
+  letter-spacing: -0.02em;
+}
+
+.cbtExamScope .cbtAdminTop p {
+  color: var(--c-text-3);
+
+  font-size: 15px;
+}
+
+.cbtExamScope .cbtAdminTop > div:last-child {
+  display: flex;
+
+  align-items: center;
+
+  gap: 24px;
+}
+
+.cbtExamScope .cbtAdminTop a,
+.cbtExamScope .cbtAdminCard a {
+  color: var(--c-primary);
+
+  font-weight: 600;
+
+  text-decoration: none;
+}
+
+.cbtExamScope .cbtAdminTop a:hover,
+.cbtExamScope .cbtAdminCard a:hover {
+  text-decoration: underline;
+
+  text-underline-offset: 3px;
+}
+
+.cbtExamScope .cbtAdminContainer {
+  max-width: 1350px;
+
+  padding: 32px;
+
+  margin: 0 auto;
+}
+
+.cbtExamScope .cbtAdminTabs {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 10px;
+
+  margin-bottom: 24px;
+}
+
+.cbtExamScope .cbtAdminTabs button {
+  padding: 13px 22px;
+
+  border-radius: var(--r-sm);
+
+  background: var(--c-surface);
+
+  border: 1px solid var(--c-border);
+
+  color: var(--c-text-2);
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 0.5rem;
+
+  font-size: 15px;
+
+  box-shadow: var(--sh-xs);
+}
+
+.cbtExamScope .cbtAdminTabs button:hover {
+  transform: translateY(-2px);
+
+  box-shadow: var(--sh-md);
+
+  color: var(--c-text);
+}
+
+.cbtExamScope .cbtAdminTabs button.active {
+  background: var(--grad-success);
+
+  color: #fff;
+
+  border-color: transparent;
+
+  box-shadow: var(--sh-glow-success);
+}
+
+.cbtExamScope .cbtAdminCard {
+  padding: 32px;
+
+  background: var(--c-surface);
+
+  border: 1px solid var(--c-border);
+
+  border-radius: var(--r-lg);
+
+  box-shadow: var(--sh-md);
+
+  animation: cbtFadeUp 0.4s var(--ease) both;
+}
+
+.cbtExamScope .cbtAdminCard h2 {
+  margin: 0 0 18px;
+
+  font-size: 22px;
+
+  font-weight: 800;
+
+  letter-spacing: -0.02em;
+}
+
+.cbtExamScope .cbtAdminCard p {
+  margin: 12px 0;
+
+  line-height: 1.6;
+
+  color: var(--c-text-2);
+}
+
+.cbtExamScope .cbtAdminForm {
+  display: grid;
+
+  max-width: 760px;
+
+  gap: 18px;
+
+  margin: 28px 0;
+}
+
+.cbtExamScope .cbtAdminForm label {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 7px;
+
+  font-weight: 600;
+
+  font-size: 14px;
+
+  color: var(--c-text-2);
+}
+
+.cbtExamScope .cbtAdminForm .cbtCheckbox {
+  flex-direction: row;
+
+  align-items: center;
+}
+
+.cbtExamScope .cbtAdminForm .cbtCheckbox input {
+  accent-color: var(--c-success);
+
+  width: 18px;
+
+  height: 18px;
+}
+
+.cbtExamScope .cbtAdminForm input:not([type="checkbox"]),
+.cbtExamScope .cbtAdminForm select,
+.cbtExamScope .cbtAdminForm textarea {
+  border: 1.5px solid var(--c-border);
+
+  border-radius: var(--r-sm);
+
+  padding: 13px 14px;
+
+  font: inherit;
+
+  font-size: 15px;
+
+  width: 100%;
+
+  background: var(--c-surface-2);
+
+  color: var(--c-text);
+
+  transition:
+    border-color var(--t-fast),
+    box-shadow var(--t-fast),
+    background-color var(--t-fast);
+}
+
+.cbtExamScope .cbtAdminForm input:not([type="checkbox"]):hover,
+.cbtExamScope .cbtAdminForm select:hover,
+.cbtExamScope .cbtAdminForm textarea:hover {
+  border-color: var(--c-border-strong);
+}
+
+.cbtExamScope .cbtAdminForm input:not([type="checkbox"]):focus,
+.cbtExamScope .cbtAdminForm select:focus,
+.cbtExamScope .cbtAdminForm textarea:focus {
+  outline: none;
+
+  background: var(--c-surface);
+
+  border-color: var(--c-primary);
+
+  box-shadow: 0 0 0 4px rgba(47, 109, 246, 0.15);
+}
+
+.cbtExamScope .cbtAdminButtons {
+  display: flex;
+
+  gap: 12px;
+
+  flex-wrap: wrap;
+
+  margin: 24px 0;
+}
+
+.cbtExamScope .cbtAdminButtons button {
+  padding: 12px 22px;
+
+  border-radius: var(--r-sm);
+
+  background: var(--grad-primary);
+
+  color: #fff;
+
+  font-size: 15px;
+
+  box-shadow: var(--sh-glow-primary);
+}
+
+.cbtExamScope .cbtAdminButtons button:hover {
+  transform: translateY(-2px);
+
+  filter: brightness(1.08);
+}
+
+.cbtExamScope .cbtMetricRow {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 16px;
+
+  margin: 24px 0;
+}
+
+.cbtExamScope .cbtMetricRow > div {
+  min-width: 150px;
+
+  flex: 1;
+
+  padding: 22px;
+
+  background: linear-gradient(145deg, var(--c-success-soft), #f6fdfa);
+
+  border: 1px solid rgba(18, 184, 134, 0.2);
+
+  border-radius: var(--r-md);
+
+  color: var(--c-text-2);
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  transition:
+    transform var(--t-med),
+    box-shadow var(--t-med);
+}
+
+.cbtExamScope .cbtMetricRow > div:hover {
+  transform: translateY(-3px);
+
+  box-shadow: var(--sh-md);
+}
+
+.cbtExamScope .cbtMetricRow strong {
+  display: block;
+
+  font-size: 32px;
+
+  font-weight: 800;
+
+  letter-spacing: -0.02em;
+
+  color: var(--c-success-600);
+
+  margin-top: 8px;
+}
+
+.cbtExamScope .cbtInfo {
+  padding: 16px 18px;
+
+  border-radius: var(--r-sm);
+
+  background: var(--c-primary-soft);
+
+  border: 1px solid rgba(47, 109, 246, 0.2);
+
+  color: var(--c-primary-600);
+
+  font-size: 15px;
+}
+
+.cbtExamScope .cbtAdminList {
+  max-height: 35rem;
+
+  overflow: auto;
+}
+
+.cbtExamScope .cbtAdminList > div {
+  border-top: 1px solid var(--c-border);
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 14px 6px;
+
+  gap: 16px;
+
+  font-size: 15px;
+
+  transition: background-color var(--t-fast);
+}
+
+.cbtExamScope .cbtAdminList > div:hover {
+  background: var(--c-surface-2);
+}
+
+.cbtExamScope .cbtAdminList > div > span {
+  overflow-wrap: anywhere;
+}
+
+.cbtExamScope .cbtAdminList button {
+  padding: 8px 14px;
+
+  color: var(--c-primary);
+
+  background: var(--c-primary-soft);
+
+  border-radius: var(--r-xs);
+
+  margin: 3px;
+
+  font-size: 14px;
+}
+
+.cbtExamScope .cbtAdminList button:hover {
+  background: var(--c-primary);
+
+  color: #fff;
+}
+
+.cbtExamScope .cbtAdminImport {
+  padding: 24px;
+
+  border-radius: var(--r-md);
+
+  background: var(--c-surface-2);
+
+  border: 2px dashed var(--c-border-strong);
+
+  margin: 32px 0;
+}
+
+.cbtExamScope .cbtAdminImport > p {
+  margin: 16px 0;
+}
+
+.cbtExamScope .cbtAdminImport input[type="file"] {
+  max-width: 100%;
+
+  font-size: 14px;
+}
+
+.cbtExamScope .cbtAdminImport input[type="file"]::file-selector-button {
+  border: none;
+
+  padding: 9px 16px;
+
+  margin-right: 12px;
+
+  border-radius: var(--r-xs);
+
+  background: var(--c-primary-soft);
+
+  color: var(--c-primary);
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.cbtExamScope .cbtTableScroll {
+  overflow: auto;
+
+  border-radius: var(--r-md);
+
+  border: 1px solid var(--c-border);
+}
+
+.cbtExamScope .cbtResultsTable {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  min-width: 620px;
+
+  margin-top: 0;
+
+  font-size: 15px;
+}
+
+.cbtExamScope .cbtResultsTable th,
+.cbtExamScope .cbtResultsTable td {
+  padding: 14px 16px;
+
+  text-align: left;
+
+  border-bottom: 1px solid var(--c-border);
+}
+
+.cbtExamScope .cbtResultsTable th {
+  background: var(--c-success-soft);
+
+  color: var(--c-success-600);
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.05em;
+
+  position: sticky;
+
+  top: 0;
+}
+
+.cbtExamScope .cbtResultsTable tbody tr {
+  transition: background-color var(--t-fast);
+}
+
+.cbtExamScope .cbtResultsTable tbody tr:nth-child(even) {
+  background: var(--c-surface-2);
+}
+
+.cbtExamScope .cbtResultsTable tbody tr:hover {
+  background: var(--c-primary-soft);
+}
+
+/* --------------------------------------------------------------------------
+
+   16. NIGHT MODE
+
+   -------------------------------------------------------------------------- */
+
+.cbtExamScope.cbtNight,
+.cbtExamScope .cbtNight {
+  --c-bg: #0f151b;
+
+  --c-surface: #19222b;
+
+  --c-surface-2: #1f2a35;
+
+  --c-surface-3: #27343f;
+
+  --c-border: #2a3745;
+
+  --c-border-strong: #3a4a5b;
+
+  --c-text: #eef3f9;
+
+  --c-text-2: #b5c1d1;
+
+  --c-text-3: #8392a6;
+
+  --c-primary-soft: rgba(47, 109, 246, 0.16);
+
+  --c-success-soft: rgba(18, 184, 134, 0.14);
+
+  --c-danger-soft: rgba(244, 81, 30, 0.14);
+}
+
+.cbtExamScope.cbtNight {
+  background:
+    radial-gradient(
+      1000px 500px at 10% -10%,
+
+      rgba(47, 109, 246, 0.16),
+      transparent 60%
+    ),
+    radial-gradient(
+      800px 460px at 100% 0%,
+
+      rgba(18, 184, 134, 0.12),
+      transparent 55%
+    ),
+    #0f151b;
+
+  color: var(--c-text);
+}
+
+.cbtExamScope.cbtNight .ctbExamsHubHeader {
+  background: rgba(25, 34, 43, 0.8);
+}
+
+.cbtExamScope.cbtNight .cbtExamshubHeading {
+  background: linear-gradient(90deg, #fff, #9bb8ff);
+
+  -webkit-background-clip: text;
+
+  background-clip: text;
+}
+
+.cbtExamScope.cbtNight .ctbExamsHubQuestion {
+  background: var(--c-surface);
+
+  color: var(--c-text);
+}
+
+.cbtExamScope.cbtNight .cbtTheQuestion {
+  color: #fff;
+}
+
+.cbtExamScope.cbtNight .ctbExamsHubMain .aside {
+  background: var(--c-surface);
+
+  color: var(--c-text);
+}
+
+.cbtExamScope.cbtNight .ctbExamsHubRight span {
+  color: var(--c-text-2);
+
+  background: var(--c-surface-2);
+}
+
+.cbtExamScope.cbtNight .optionSelectionEx {
+  background: var(--c-surface-2);
+}
+
+.cbtExamScope.cbtNight .optionSelectionEx::before {
+  background: var(--c-surface-2);
+
+  box-shadow: inset 0 0 0 4px var(--c-surface-2);
+}
+
+.cbtExamScope.cbtNight .optionSelectionEx.checkedExOpt {
+  background: linear-gradient(
+    135deg,
+    rgba(18, 184, 134, 0.2),
+    rgba(18, 184, 134, 0.08)
+  );
+}
+
+.cbtExamScope.cbtNight .optionSelectionEx.checkedExOpt::before {
+  box-shadow: inset 0 0 0 4px var(--c-surface-2);
+}
+
+.cbtExamScope.cbtNight .ctbExamsHubPaginationsCont .pagination-button.active {
+  background: #fff;
+
+  color: #0f151b;
+
+  outline-color: #fff;
+}
+
+.cbtExamScope.cbtNight .cbtDialog {
+  background: var(--c-surface);
+}
+
+.cbtExamScope.cbtNight .cbtWaitingCard {
+  background: var(--c-surface);
+}
+
+.cbtExamScope.cbtNight .ctbExamsHubSubjects button {
+  background: var(--c-surface-2);
+}
+
+/* --------------------------------------------------------------------------
+
+   17. RESPONSIVE
+
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 1350px) {
+  .cbtExamScope .ctbExamsHubMain {
+    margin: 0;
+
+    grid-template-columns: minmax(0, 1fr) minmax(240px, 295px);
+  }
+
+  .cbtExamScope .ctbExamsHubPaginationsCont {
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 950px) {
+  .cbtExamScope .ctbExamsHubMain {
+    grid-template-columns: 1fr;
+
+    margin: 0;
+  }
+
+  .cbtExamScope .ctbExamsHubMain .aside {
+    max-height: none;
+
+    position: static;
+  }
+
+  .cbtExamScope .ctbExamsHubPaginationsCont {
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+  }
+
+  .cbtExamScope .ctbExamsHubHeader {
+    padding: 8px 14px;
+  }
+
+  .cbtExamScope .cbtTheQuestion {
+    font-size: 18px;
+  }
+
+  .cbtExamScope .ctbExamsHubQuestion {
+    padding: 38px 18px 18px;
+  }
+
+  .cbtExamScope .ctbExamsHubMiddleWare {
+    padding: 0 14px;
+  }
+
+  .cbtExamScope .ctbExamsHubFooter {
+    margin: 16px;
+  }
+
+  .cbtExamScope .cbtAdminTop {
+    padding: 18px 24px;
+  }
+}
+
+@media (max-width: 600px) {
+  .cbtExamScope .cbtExamsHubheaderCont {
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 0.8rem;
+  }
+
+  .cbtExamScope .ctbExamsHubMain {
+    margin: 0;
+
+    gap: 16px;
+
+    padding: 16px 16px 50px;
+  }
+
+  .cbtExamScope .ctbExamsHubSubjects button {
+    width: auto;
+
+    min-width: 7rem;
+
+    padding: 10px 16px;
+  }
+
+  .cbtExamScope .ctbExamsHubPaginationsCont {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+
+    gap: 10px;
+  }
+
+  .cbtExamScope .ctbExamsHubPaginationsCont .pagination-button {
+    font-size: 14px;
+
+    width: 42px;
+  }
+
+  .cbtExamScope .ctbExamsHubOperations {
+    gap: 10px;
+
+    padding: 10px;
+  }
+
+  .cbtExamScope .ctbExamsHubOperations figure {
+    order: 3;
+
+    width: 100%;
+
+    margin-top: 12px;
+  }
+
+  .cbtExamScope .ctbExamsHubOperations .prev button,
+  .cbtExamScope .ctbExamsHubOperations .next button {
+    min-width: 100px;
+
+    padding: 10px 16px;
+  }
+
+  .cbtExamScope .cbtTheQuestion {
+    font-size: 17px;
+  }
+
+  .cbtExamScope .optionSelectionEx {
+    font-size: 16px;
+
+    padding: 12px 14px;
+  }
+
+  .cbtExamScope .ctbExamsHubQuestion {
+    padding: 20px 14px 20px;
+
+    margin-top: 16px;
+  }
+
+  .cbtExamScope .ctbExamsHubQuestionBtn {
+    position: static;
+
+    padding: 0;
+
+    margin-bottom: 18px;
+
+    justify-content: flex-end;
+
+    gap: 12px;
+  }
+
+  .cbtExamScope .ctbExamsHubQuestionBtn button {
+    height: 44px;
+
+    width: 44px;
+  }
+
+  .cbtExamScope .ctbExamsHubMiddleWare {
+    position: static;
+  }
+
+  .cbtExamScope .ctbExamsHubMain .aside {
+    padding: 14px;
+  }
+
+  .cbtExamScope .cbtAdminTop {
+    padding: 16px;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  .cbtExamScope .cbtAdminContainer {
+    padding: 16px;
+  }
+
+  .cbtExamScope .cbtAdminCard {
+    padding: 18px;
+  }
+
+  .cbtExamScope .ctbExamsHubFooter {
+    padding: 12px;
+
+    font-size: 14px;
+
+    letter-spacing: 0.04em;
+  }
+
+  .cbtExamScope .cbtWaitingCard {
+    padding: 32px 22px;
+  }
+
+  .cbtExamScope .cbtDialog {
+    padding: 22px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+
+   18. FULLSCREEN EXAM SECURITY
+
+   -------------------------------------------------------------------------- */
+
+.cbtExamScope.exam-secure-content,
+.cbtExamScope.exam-secure-content *:not(input):not(textarea) {
+  -webkit-user-select: none;
+
+  user-select: none;
+}
+
+/* --------------------------------------------------------------------------
+
+   19. PRINT & ACCESSIBILITY
+
+   -------------------------------------------------------------------------- */
+
+@media print {
+  .cbtExamScope {
+    background: #fff;
+  }
+
+  .cbtExamScope .ctbExamsHubHeader,
+  .cbtExamScope .ctbExamsHubOperations,
+  .cbtExamScope .ctbExamsHubFooter,
+  .cbtExamScope .cbtModal,
+  .cbtExamScope #modalContainer {
+    display: none !important;
+  }
+
+  .cbtExamScope .ctbExamsHubQuestion,
+  .cbtExamScope .cbtAdminCard {
+    box-shadow: none;
+
+    border: 1px solid #ccc;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cbtExamScope *,
+  .cbtExamScope *::before,
+  .cbtExamScope *::after {
+    animation-duration: 0.001ms !important;
+
+    animation-iteration-count: 1 !important;
+
+    transition-duration: 0.001ms !important;
+  }
+}

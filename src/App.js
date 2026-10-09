@@ -1,5 +1,5 @@
-import Authorization from "./Authorization";
-import { GlobalContextProviders } from "./components/_globalContextProviders";
+import Authorization from "./routes/private/Authorization";
+import { GlobalContextProviders } from "./components/shared/providers/_globalContextProviders";
 
 function App() {
   return (
